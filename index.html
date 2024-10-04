@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CTU Website</title>
+    <style>
+        /* Reset margin and padding for all elements and set a default font */
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        /* Style for the full-screen banner with a background image */
+        .banner {
+            width: 100%;
+            height: 100vh;
+            background-image: linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)),url("ctu back.jpg");
+            background-position: center;
+            background-size: cover;
+            position: relative; /* Needed for absolute positioning of animated elements */
+            overflow: hidden; /* Hide overflowing elements for clean animation */
+            animation: backgroundAnimation 20s infinite alternate; /* Background animation */
+        }
+
+        /* Background animation */
+        @keyframes backgroundAnimation {
+            0% {
+                background-position: 0% 0%;
+            }
+            100% {
+                background-position: 100% 100%;
+            }
+        }
+
+        /* Style for the navigation bar */
+        .navbar {
+            width: 85%;
+            margin: auto;
+            padding: 35px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 1; /* Ensure navbar is above other content */
+        }
+
+        /* Style for the logo inside the navbar */
+        .logo {
+            width: 120px;
+            cursor: pointer;
+            transition: transform 0.3s; /* Smooth logo animation */
+            animation: rotateLogo 10s infinite linear; /* Add continuous rotation */
+        }
+
+        /* Rotate animation for the logo */
+        @keyframes rotateLogo {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Scale the logo on hover */
+        .logo:hover {
+            transform: scale(1.1);
+        }
+
+        /* Style for each list item in the navbar */
+        .navbar ul li {
+            list-style-type: none; /* Remove bullet points */
+            display: inline-block; /* Display items in a row */
+            margin: 0 20px; /* Space between items */
+            position: relative;
+        }
+
+        /* Style for the links inside the list items */
+        .navbar ul li a {
+            text-decoration: none; /* Remove underline */
+            color: #fff; /* White text color */
+            text-transform: uppercase; /* Uppercase text */
+            transition: color 0.3s; /* Smooth text color transition */
+        }
+
+        /* Underline effect for the links on hover */
+        .navbar ul li::after {
+            content: "";
+            height: 3px;
+            width: 0;
+            background: #009688;
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            transition: width 0.5s; /* Smooth underline transition */
+        }
+
+        /* Expand underline on hover */
+        .navbar ul li:hover::after {
+            width: 100%;
+        }
+
+        /* Style for the main content area */
+        .content {
+            width: 100%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%); /* Center content vertically */
+            text-align: center;
+            color: #fff; /* White text color */
+        }
+
+        /* Style for the main heading */
+        .content h1 {
+            font-size: 5vw; /* Responsive font size */
+            margin: 80px; /* Adds spacing around the heading */
+            animation: fadeIn 2s ease-in-out; /* Fade-in animation */
+        }
+
+        /* Fade-in animation */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Style for the paragraph text */
+        .content p {
+            margin: 20px auto; /* Centers the paragraph with some spacing */
+            font-weight: 100;
+            line-height: 25px; /* Spacing between lines */
+            animation: slideIn 2s ease-in-out; /* Slide-in animation */
+        }
+
+        /* Slide-in animation */
+        @keyframes slideIn {
+            0% {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Container for the buttons */
+        .button-container {
+            display: flex;
+            justify-content: center; /* Center the buttons */
+            gap: 20px; /* Space between buttons */
+        }
+
+        /* Style for the buttons */
+        .button {
+            width: 200px;
+            padding: 15px 0;
+            text-align: center;
+            margin: 20px 10px;
+            border-radius: 25px; /* Rounded corners */
+            font-weight: bold;
+            border: 2px solid #009688; /* Teal border */
+            background: transparent; /* Transparent background */
+            color: #fff; /* White text color */
+            cursor: pointer;
+            position: relative;
+            overflow: hidden; /* Hide overflow for hover effect */
+            transition: color 0.4s, border-color 0.4s; /* Smooth color transition */
+        }
+
+        /* Style for the background effect inside the button */
+        .button span {
+            display: block;
+            background: #009688; /* Teal background */
+            height: 100%;
+            width: 0; /* Initially hidden */
+            border-radius: 25px; /* Match button’s rounded corners */
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1; /* Place behind the text */
+            transition: width 0.4s; /* Smooth transition on hover */
+        }
+
+        /* Expand the background effect on hover */
+        .button:hover span {
+            width: 100%;
+        }
+
+        /* Remove the border and change text color when the button is hovered */
+        .button:hover {
+            border: none;
+            color: #000; /* Change text color on hover */
+        }
+
+        /* Style for the footer at the bottom of the page */
+        footer {
+            position: fixed; /* Keep the footer at the bottom */
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            color: #fff; /* White text color */
+            text-align: center; /* Center the text */
+        }
+
+        /* Add keyframes for wave animation */
+@keyframes wave {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    50% { transform: rotate(-5deg); }
+    75% { transform: rotate(5deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* Apply the wave animation to the h1 element */
+.content h1 {
+    font-size: 5vw; /* Responsive font size */
+    margin: 80px; /* Adds spacing around the heading */
+    display: inline-block; /* Ensures the transform effect works */
+    animation: wave 2s infinite ease-in-out; /* Continuous wave effect */
+}
+
+@keyframes colorChange {
+    0% { color: #fff; }
+    25% { color: #009688; } 
+    50% { color: #fff; } 
+    75% { color: #009688; } 
+    100% { color: #fff; }
+}
+
+/* Apply the color change animation to h1 */
+.content h1 {
+    font-size: 5vw;
+    margin: 80px;
+    display: inline-block;
+    animation: wave 2s infinite ease-in-out, colorChange 5s infinite ease-in-out; /* Add color change */
+}
+    </style>
+</head>
+<body>
+    <!-- Banner section with background image and navbar -->
+    <div class="banner">
+        <!-- Navigation bar with links to different pages -->
+        <div class="navbar">
+            <!-- Logo image with rotation effect -->
+            <img src="ctu-removebg-preview.png" class="logo">
+            <!-- Navigation links -->
+            <ul>
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="./timetable.html">Timetable</a></li>
+                <li><a href="./message.html">Messages</a></li>
+                <li><a href="./Shareresource2.html">Sharing Resources</a></li>
+            </ul>
+        </div>
+        <!-- Main content area with welcome message and buttons -->
+        <div class="content">
+            <h1>Welcome to CTU-Buddy</h1>
+            <p>CTU-Buddy streamlines your academic journey with an intuitive platform designed to enhance your learning experience.<br>Manage your timetable, engage in discussions, and share resources seamlessly with CTU-Buddy.<br>Connect with peers, access educational materials, and stay organized—all in one place.</p>
+            <!-- Container for the buttons -->
+            <div class="button-container">
+                <!-- Button linking to the About Us page -->
+                <a href="about.html">
+                    <button type="button" class="button"><span></span>About Us</button>
+                </a>
+                <!-- Button linking to the Contact Us page -->
+                <a href="contact.html">
+                    <button type="button" class="button"><span></span>Contact Us</button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Footer at the bottom of the page -->
+    <footer><p>&copy;2024 CTU-Buddy. All Rights Reserved.</p></footer>
+</body>
+</html>

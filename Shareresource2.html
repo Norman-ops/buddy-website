@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Upload and Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-image: url('pexels-tima-miroshnichenko-6549344.jpg'); /* Background image */
+            background-size: cover; /* Cover the entire background */
+            background-position: center; /* Center the background */
+            color: white; /* Set text color to white for better readability */
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            max-width: 200px; /* Adjust the width of the logo */
+            height: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: rgba(0, 0, 0, 0.7); /* Add a semi-transparent background to the table */
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button, input[type="file"] {
+            background-color: #4CAF50; /* Green background */
+            color: white; /* White text */
+            border: none; /* No border */
+            padding: 10px 15px; /* Some padding */
+            text-align: center; /* Center text */
+            text-decoration: none; /* No underline */
+            display: inline-block; /* Make the buttons inline */
+            font-size: 16px; /* Font size */
+            margin: 4px 2px; /* Margins for spacing */
+            cursor: pointer; /* Pointer cursor on hover */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        input[type="file"] {
+            margin-top: 10px; /* Add some space above the file input */
+        }
+
+        button:hover, input[type="file"]:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        button:focus, input[type="file"]:focus {
+            outline: none; /* Remove focus outline */
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar"></div>
+        <img src="ctu-removebg-preview.png" alt="CTU-Buddy Logo">
+        <a href="index.html">Home</a>
+        <a href="timetable.html">Timetable</a>
+        <a href="message.html">Messages</a>
+        <a href="Shareresource2.html">Sharing Resources</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+    </div>
+
+<header>
+    <img src="ctu-removebg-preview.png" alt="CTU Logo" class="logo">
+    <h2>Upload PDF</h2>
+</header>
+
+<form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" name="pdfFile" accept="application/pdf" required>
+    <button type="submit">Upload</button>
+</form>
+
+<div id="message"></div>
+
+<h2>Uploaded PDFs</h2>
+<table id="pdfTable">
+    <thead>
+        <tr>
+            <th>Filename</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- PDF list will be populated here -->
+    </tbody>
+</table>
+
+<script>
+document.getElementById('uploadForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+    fetch('SHareresource2.php?action=upload', { // Ensure this matches your PHP file name
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(result => {
+        document.getElementById('message').innerHTML = result;
+        loadPDFs();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('message').innerHTML = 'An error occurred during upload.';
+    });
+});
+
+function loadPDFs() {
+    fetch('SHareresource2.php?action=list') // Ensure this matches your PHP file name
+    .then(response => response.json())
+    .then(pdfs => {
+        const tbody = document.querySelector('#pdfTable tbody');
+        tbody.innerHTML = '';
+        pdfs.forEach(pdf => {
+            const row = tbody.insertRow();
+            row.insertCell(0).textContent = pdf.filename;
+            const actionsCell = row.insertCell(1);
+            actionsCell.innerHTML = `
+                <button onclick="viewPDF(${pdf.id})">View</button>
+                <button onclick="downloadPDF(${pdf.id})">Download</button>
+            `;
+        });
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function viewPDF(id) {
+    window.open(`SHareresource2.php?action=view&id=${id}`, '_blank'); // Ensure this matches your PHP file name
+}
+
+function downloadPDF(id) {
+    window.location.href = `SHareresource2.php?action=download&id=${id}`; // Ensure this matches your PHP file name
+}
+
+// Load PDFs when the page loads
+loadPDFs();
+</script>
+
+</body>
+</html>

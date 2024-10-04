@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Message Board</title>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-image: url('pexels-kindelmedia-7688660.jpg'); /* Background image */
+            background-size: cover; /* Cover the entire background */
+            background-position: center; /* Center the background image */
+            background-repeat: no-repeat; /* Prevent background image repetition */
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            opacity: 0.9; /* Optional: Make the container slightly transparent */
+        }
+        h1, h2 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .message, .comment {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        .message {
+            border-left: 5px solid #4CAF50;
+        }
+        .comment {
+            margin-left: 20px;
+            border-left: 5px solid #2196F3;
+        }
+        .timestamp {
+            font-size: 0.8em;
+            color: #888;
+        }
+
+        
+        /* Add keyframes for wave animation */
+@keyframes wave {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    50% { transform: rotate(-5deg); }
+    75% { transform: rotate(5deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* Apply the wave animation to the h1 element */
+.content h1 {
+    font-size: 5vw; /* Responsive font size */
+    margin: 80px; /* Adds spacing around the heading */
+    display: inline-block; /* Ensures the transform effect works */
+    animation: wave 2s infinite ease-in-out; /* Continuous wave effect */
+}@keyframes colorChange {
+    0% { color: #fff; }
+    25% { color: #009688; } 
+    50% { color: #fff; } 
+    75% { color: #009688; } 
+    100% { color: #fff; }
+}
+
+/* Apply the color change animation to h1 */
+.content h1 {
+    font-size: 5vw;
+    margin: 80px;
+    display: inline-block;
+    animation: wave 2s infinite ease-in-out, colorChange 5s infinite ease-in-out; /* Add color change */
+}
+</style>
+</head>
+<body>
+     <!-- Navigation Bar -->
+     <div class="navbar">
+        <img src="ctu-removebg-preview.png" alt="CTU-Buddy Logo">
+        <a href="index.html">Home</a>
+        <a href="timetable.html">Timetable</a>
+        <a href="message.html">Messages</a>
+        <a href="Shareresource2.html">Sharing Resources</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+    </div>
+<div class="container">
+<h1>Message Board</h1>
+<form id="messageForm">
+<textarea id="messageContent" rows="4" placeholder="Write your message here..." required></textarea>
+<button type="submit">Post Message</button>
+</form>
+<div id="messages"></div>
+</div>
+ 
+    <script>
+        function loadMessages() {
+            fetch('message_board.php?action=getMessages')
+                .then(response => response.json())
+                .then(data => {
+                    const messagesDiv = document.getElementById('messages');
+                    messagesDiv.innerHTML = '';
+                    data.forEach(message => {
+                        const messageDiv = document.createElement('div');
+                        messageDiv.className = 'message';
+                        messageDiv.innerHTML = `
+<p>${message.content}</p>
+<p class="timestamp">Posted on ${message.timestamp}</p>
+<form class="commentForm">
+<textarea rows="2" placeholder="Write a comment..." required></textarea>
+<button type="submit">Post Comment</button>
+</form>
+<div class="comments"></div>
+                        `;
+                        messagesDiv.appendChild(messageDiv);
+ 
+                        const commentForm = messageDiv.querySelector('.commentForm');
+                        commentForm.addEventListener('submit', function(e) {
+                            e.preventDefault();
+                            const commentContent = this.querySelector('textarea').value;
+                            postComment(message.id, commentContent, messageDiv);
+                        });
+ 
+                        loadComments(message.id, messageDiv.querySelector('.comments'));
+                    });
+                });
+        }
+ 
+        function postMessage(content) {
+            fetch('message_board.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `action=postMessage&content=${encodeURIComponent(content)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('messageContent').value = '';
+                    loadMessages();
+                } else {
+                    alert('Error posting message');
+                }
+            });
+        }
+ 
+        function postComment(messageId, content, messageDiv) {
+            fetch('message_board.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `action=postComment&messageId=${messageId}&content=${encodeURIComponent(content)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    messageDiv.querySelector('.commentForm textarea').value = '';
+                    loadComments(messageId, messageDiv.querySelector('.comments'));
+                } else {
+                    alert('Error posting comment');
+                }
+            });
+        }
+ 
+        function loadComments(messageId, commentsDiv) {
+            fetch(`message_board.php?action=getComments&messageId=${messageId}`)
+                .then(response => response.json())
+                .then(data => {
+                    commentsDiv.innerHTML = '';
+                    data.forEach(comment => {
+                        const commentDiv = document.createElement('div');
+                        commentDiv.className = 'comment';
+                        commentDiv.innerHTML = `
+<p>${comment.content}</p>
+<p class="timestamp">Posted on ${comment.timestamp}</p>
+                        `;
+                        commentsDiv.appendChild(commentDiv);
+                    });
+                });
+        }
+ 
+        document.getElementById('messageForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const content = document.getElementById('messageContent').value;
+            postMessage(content);
+        });
+ 
+        // Load messages when the page loads
+        loadMessages();
+</script>
+</body>
+</html>

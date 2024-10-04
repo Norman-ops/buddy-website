@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Contact Us - CTU-Buddy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+            background: url('pexels-julien-goettelmann-44396125-19453661.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .navbar {
+            background-color: rgba(44, 62, 80, 0.8);
+            width: 250px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            position: fixed;
+        }
+
+        .navbar img {
+            width: 100px;
+            height: auto;
+            margin: 0 auto 20px;
+            animation: rotate 10s linear infinite;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            margin-left: 270px;
+            padding: 20px;
+            width: calc(100% - 270px);
+            flex: 1;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 150px;
+        }
+
+        button {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #34495e;
+        }
+
+        /* Footer */
+        footer {
+            color: #333;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: calc(100% - 270px);
+            bottom: 0;
+            left: 270px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .curly-font {
+            font-family: 'Great Vibes', cursive;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 20px;
+            color: #2c3e50;
+        }
+
+        .contact-info, .map {
+            margin-top: 30px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 400px;
+            border: 0;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <img src="ctu-removebg-preview.png" alt="CTU-Buddy Logo">
+        <a href="index.html">Home</a>
+        <a href="timetable.html">Timetable</a>
+        <a href="message.html">Discussion</a>
+        <a href="Shareresource2.html">Share Resources</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+    </div>
+
+    <div class="container content">
+        <h1>Contact Us</h1>
+
+        <!-- Contact Form -->
+        <form action="subscribe.php" method="post">
+            <div class="form-group">
+                <label for="name">Your Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Your Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Your Message:</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+
+        <!-- Subscription Form -->
+        <h2>Subscribe to Our Newsletter</h2>
+        <form action="subscribe.php" method="post">
+            <div class="form-group">
+                <label for="subscribe-email">Enter Your Email:</label>
+                <input type="email" id="subscribe-email" name="subscribe_email" required>
+            </div>
+            <button type="submit">Subscribe</button>
+        </form>
+
+        <div class="contact-info">
+            <h2>Contact Information</h2>
+            <p><strong>CTU Roodepoort Campus</strong></p>
+            <p>Address: 59 Ontdekkers Rd, Horizon View, Roodepoort, 1724, South Africa</p>
+            <p>Phone: +27 11 760 1020</p>
+            <p>Email: info@ctu.co.za</p>
+        </div>
+
+        <div class="map">
+            <h2>Our Location</h2>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3332.647212074424!2d27.894005816205056!3d-26.15950436507874!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e95a841f12468c5%3A0x456d91b317f2e91f!2sCTU%20Training%20Solutions%20Roodepoort!5e0!3m2!1sen!2sza!4v1692792259082!5m2!1sen!2sza" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+        <div class="curly-font">
+            <p>Names: Murendeni Muleba, Bonginkosi Makhubu, Thama Managa</p>
+            <p>Group Name: CtuWebWIzards</p>
+            <p>Student Numbers: 20240253, 20240783, 20240944</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 CTU-Buddy. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
